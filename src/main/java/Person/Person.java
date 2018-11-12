@@ -1,13 +1,13 @@
 package Person;
 
-import org.joda.time.*;
+import org.joda.time.LocalDate;
 
 public class Person {
-    public LocalTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -28,17 +28,33 @@ public class Person {
     }
 
     /** Дата рождения персоны */
-    private LocalTime dateOfBirth;
+    private LocalDate dateOfBirth;
     /** ФИО персоны */
     private String fullName;
     /** Пол персоны */
     private char sex;
 
-    private void findAge(String a){
-
+    @Override
+    public String toString() {
+        return "Person{" +
+                "dateOfBirth=" + dateOfBirth +
+                ", fullName='" + fullName + '\'' +
+                ", sex=" + sex +
+                '}';
     }
-    public static void main(String[] args) {
-Person a = new Person();
 
+    private Person(){
+    System.out.println("hello");
+    }
+    public Integer findAge(){
+        return LocalDate.now().getYear() - this.dateOfBirth.getYear();
+}
+    public static void main(String[] args) {
+        Person a = new Person();
+        a.setDateOfBirth(LocalDate.parse("1990-12-12"));
+        a.setFullName("Margo Rollup Blonsky");
+        a.setSex('m');
+        System.out.println(a.findAge());
+        System.out.println(a.toString());
     }
 }
