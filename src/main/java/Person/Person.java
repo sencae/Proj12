@@ -1,13 +1,19 @@
 package Person;
 
+import Repository.Repository;
 import org.joda.time.LocalDate;
+import org.joda.time.Years;
+
+import java.util.Scanner;
 
 public class Person {
+
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    private void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -15,7 +21,7 @@ public class Person {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
+    private void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -23,38 +29,51 @@ public class Person {
         return sex;
     }
 
-    public void setSex(char sex) {
+    private void setSex(char sex) {
         this.sex = sex;
     }
 
-    /** Дата рождения персоны */
+
     private LocalDate dateOfBirth;
-    /** ФИО персоны */
+
     private String fullName;
-    /** Пол персоны */
+
     private char sex;
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "PersonTest{" +
                 "dateOfBirth=" + dateOfBirth +
                 ", fullName='" + fullName + '\'' +
                 ", sex=" + sex +
                 '}';
     }
 
-    private Person(){
-    System.out.println("hello");
+
+     public Person(LocalDate a, String s, char f){
+    this.setSex(f);
+    this.setFullName(s);
+    this.setDateOfBirth(a);
     }
-    public Integer findAge(){
-        return LocalDate.now().getYear() - this.dateOfBirth.getYear();
+
+    /**
+     *
+     * @return person's age
+     */
+    public Years findAge(){
+        return Years.yearsBetween(dateOfBirth,LocalDate.now());
 }
     public static void main(String[] args) {
-        Person a = new Person();
-        a.setDateOfBirth(LocalDate.parse("1990-12-12"));
-        a.setFullName("Margo Rollup Blonsky");
-        a.setSex('m');
-        System.out.println(a.findAge());
-        System.out.println(a.toString());
+        Repository f = new Repository();
+        f.addPerson(LocalDate.now(),"aaaaaaa",'m');
+        f.addPerson(new LocalDate(1991,12,12),"bbbbb",'w');
+        f.addPerson(new LocalDate(1991,11,11),"bbfsabb",'m');
+        f.addPerson(new LocalDate(1993,10,4),"cccc",'w');
+
+        f.showPersons();
+
+        f.getAgeOfPerson(1);
+        f.getAgeOfPerson(2);
+
     }
 }
