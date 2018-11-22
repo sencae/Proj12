@@ -1,10 +1,8 @@
 package Person;
 
-import Repository.Repository;
+
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
-
-import java.util.Scanner;
 
 public class Person {
 
@@ -25,35 +23,51 @@ public class Person {
         this.fullName = fullName;
     }
 
-    public char getSex() {
-        return sex;
+    public Character getGender() {
+        return gender;
     }
 
-    private void setSex(char sex) {
-        this.sex = sex;
+    private void setGender(Character gender) {
+        this.gender = gender;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
+    private void setId(Integer id) {
+        this.id = id;
+    }
+
+    private Integer id;
     private LocalDate dateOfBirth;
 
     private String fullName;
 
-    private char sex;
+    private Character gender;
 
     @Override
     public String toString() {
-        return "PersonTest{" +
-                "dateOfBirth=" + dateOfBirth +
+        return "Person{" +
+                "Id=" + id +
+                ", dateOfBirth=" + dateOfBirth +
                 ", fullName='" + fullName + '\'' +
-                ", sex=" + sex +
+                ", sex=" + gender +
                 '}';
     }
 
-
-     public Person(LocalDate a, String s, char f){
-    this.setSex(f);
-    this.setFullName(s);
-    this.setDateOfBirth(a);
+    /**
+     *
+     * @param i Id
+     * @param a dateOfBirth
+     * @param s fullName
+     * @param f gender
+     */
+     public Person(Integer i,LocalDate a, String s, Character f){
+            this.setId(i);
+            this.setGender(f);
+            this.setFullName(s);
+            this.setDateOfBirth(a);
     }
 
     /**
@@ -63,17 +77,6 @@ public class Person {
     public Years findAge(){
         return Years.yearsBetween(dateOfBirth,LocalDate.now());
 }
-    public static void main(String[] args) {
-        Repository f = new Repository();
-        f.addPerson(LocalDate.now(),"aaaaaaa",'m');
-        f.addPerson(new LocalDate(1991,12,12),"bbbbb",'w');
-        f.addPerson(new LocalDate(1991,11,11),"bbfsabb",'m');
-        f.addPerson(new LocalDate(1993,10,4),"cccc",'w');
 
-        f.showPersons();
 
-        f.getAgeOfPerson(1);
-        f.getAgeOfPerson(2);
-
-    }
 }
