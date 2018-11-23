@@ -3,10 +3,12 @@ package Repository;
 
 import Comparators.*;
 import Person.Person;
+import RepositorySearcher.DateOfBirthChecker;
+import RepositorySearcher.FioPersonChecker;
+import RepositorySearcher.GenderPersonChecker;
+import RepositorySearcher.PersonChecker;
 import RepositorySorters.*;
 import org.joda.time.LocalDate;
-
-
 
 
 
@@ -15,16 +17,6 @@ public class Repository {
     private int size = 0;
     private Person[] masPersons = new Person[size];
 
-    /**
-     *
-     * @param i Id
-     * @param a Date of birth
-     * @param s Full name
-     * @param f gender
-     */
-    public void addPerson(Integer i,LocalDate a, String s, char f) {
-        addInRepos(new Person(i,a, s, f));
-    }
 
     /**
      *
@@ -59,7 +51,10 @@ public class Repository {
         }
         }
 
-
+    /**
+     *
+     * @param p Person object
+     */
     private void addInRepos(Person p) {
         if (size == 0 || masPersons.length == size) {
             size++;
@@ -114,20 +109,37 @@ public class Repository {
     public void sortByGender(){
         sorter.sort(masPersons,new CompByGender());
     }
-
+    private Repository search(PersonChecker p,Object value){
+        Repository result = new Repository();
+        for(int i = 0;i<size;i++){
+            if(p.check(masPersons[i],value))
+                result.addInRepos(masPersons[i]);
+        }
+        return result;
+    }
+    public Repository searchByFio(String fio){
+        return search(new FioPersonChecker(),fio);
+    }
+    public Repository searchByGender(Character gender){
+        return search(new GenderPersonChecker(),gender);
+    }
+    public Repository searchByDateOfBirth(LocalDate dateOfBirth){
+        return search(new DateOfBirthChecker(),dateOfBirth);
+    }
     public static void main(String[] args) {
 
         Repository f = new Repository();
-        f.addPerson(1,LocalDate.now(),"aaaaaaa",'m');
-        f.addPerson(2,new LocalDate(1991,12,12),"bbbbb",'w');
-        f.addPerson(3,new LocalDate(1991,11,11),"bbfsabb",'m');
-        f.addPerson(4,new LocalDate(1993,10,4),"cccc",'w');
-        f.addPerson(5,new LocalDate(1991,12,12),"bbbbb",'w');
-        f.showPersons();
+        f.addInRepos(new Person(1,LocalDate.now(),"aaaaaaa",'m'));
+        f.addInRepos(new Person(2,new LocalDate(1991,12,12),"bbbbb",'w'));
+        f.addInRepos(new Person(3,new LocalDate(1991,11,11),"bbfsabb",'m'));
+        f.addInRepos(new Person(4,new LocalDate(1993,10,4),"cccc",'w'));
+        f.addInRepos(new Person(5,new LocalDate(1991,12,12),"bbbbb",'w'));
         System.out.println();
         f.sortByGender();
         f.showPersons();
-
+Repository n = f.searchByDateOfBirth(new LocalDate(1991,12,12));
+        System.out.println();
+n.showPersons();
     }
 
 }
