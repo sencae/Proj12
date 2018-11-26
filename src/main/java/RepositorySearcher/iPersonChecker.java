@@ -2,6 +2,6 @@ package RepositorySearcher;
 
 import Person.Person;
 
-public interface PersonChecker {
+public interface iPersonChecker {
     boolean check(Person p, Object value);
 }

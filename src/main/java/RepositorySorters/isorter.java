@@ -1,8 +1,8 @@
 package RepositorySorters;
 
-import Comparators.PersonComparator;
+import Comparators.iPersonComparator;
 import Person.Person;
 
 public interface isorter {
-        void sort(Person[] p, PersonComparator c);
+    void sort(Person[] p, iPersonComparator c);
 }

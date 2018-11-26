@@ -2,7 +2,7 @@ package RepositorySearcher;
 
 import Person.Person;
 
-public class FioPersonChecker implements PersonChecker {
+public class FioPersonChecker implements iPersonChecker {
 
     @Override
     public boolean check(Person p, Object value) {

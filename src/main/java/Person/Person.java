@@ -4,6 +4,7 @@ package Person;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
+
 public class Person {
 
 
@@ -41,9 +42,7 @@ public class Person {
 
     private Integer id;
     private LocalDate dateOfBirth;
-
     private String fullName;
-
     private Character gender;
 
     @Override
@@ -57,26 +56,31 @@ public class Person {
     }
 
     /**
-     *
      * @param i Id
      * @param a dateOfBirth
      * @param s fullName
      * @param f gender
      */
-     public Person(Integer i,LocalDate a, String s, Character f){
-            this.setId(i);
-            this.setGender(f);
-            this.setFullName(s);
-            this.setDateOfBirth(a);
+    public Person(Integer i, LocalDate a, String s, Character f) {
+        this.setId(i);
+        this.setGender(f);
+        this.setFullName(s);
+        this.setDateOfBirth(a);
+    }
+
+    public Person() {
+        this.id = 0;
+        this.gender = ' ';
+        this.dateOfBirth = LocalDate.parse("2000-12-12");
+        this.fullName = "";
     }
 
     /**
-     *
      * @return person's age
      */
-    public Years findAge(){
-        return Years.yearsBetween(dateOfBirth,LocalDate.now());
-}
+    public Years findAge() {
+        return Years.yearsBetween(dateOfBirth, LocalDate.now());
+    }
 
 
 }
