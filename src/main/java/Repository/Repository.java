@@ -54,10 +54,6 @@ public class Repository {
      * @param p Person object
      */
     public void add(Person p) {
-        addInRepos(p, size);
-    }
-
-    private void addInRepos(Person p, int size) {
         if (masPersons.length == size) {
             masPersons = resize();
         }
@@ -66,11 +62,13 @@ public class Repository {
     }
 
     /**
-     * function to get a full list of persons
+     *
+     * @return array of persons in repository
      */
-    private void showPersons() {
-        for (int i = 0; i < size; i++)
-            System.out.println(masPersons[i].toString());
+    public Person[] getMasPersons() {
+        Person[] result = new Person[size];
+        System.arraycopy(masPersons, 0, result, 0, result.length);
+        return result;
     }
 
     /**
@@ -82,24 +80,12 @@ public class Repository {
         return newMasPerson;
     }
 
-    /**
-     * function to get one person
-     *
-     * @param index index of person to take
-     */
-    public void getPerson(int index) {
-        if (index < 0 || index > masPersons.length)
-            System.out.println("неверный индекс");
-        else
-            System.out.println(masPersons[index].toString());
-    }
 
     /**
      * @param index index of person to take
      */
-    public void getAgeOfPerson(int index) {
-
-        System.out.println(masPersons[index].findAge().getYears());
+    public Integer getAgeOfPerson(int index) {
+        return masPersons[index].findAge();
     }
 
     public void sortBy(iPersonComparator comparator) {
@@ -125,23 +111,6 @@ public class Repository {
 
     public Repository searchByDateOfBirth(LocalDate dateOfBirth) {
         return search(new DateOfBirthChecker(), dateOfBirth);
-    }
-
-    public static void main(String[] args) {
-
-        Repository f = new Repository(new SorterByGender());
-        f.add(new Person(1, LocalDate.now(), "aaaaaaa", 'm'));
-        f.add(new Person(2, new LocalDate(1991, 12, 12), "bbbbb lll", 'w'));
-        f.add(new Person(3, new LocalDate(1991, 11, 11), "bbfsabb lll", 'm'));
-        f.add(new Person(4, new LocalDate(1993, 10, 4), "cccc aaa", 'w'));
-        f.add(new Person(5, new LocalDate(1991, 12, 12), "bbbbb jjj", 'w'));
-        f.showPersons();
-        System.out.println();
-        f.sortBy(new CompByGender());
-        f.showPersons();
-        Repository n = f.searchByFio("lll");
-        System.out.println();
-        n.showPersons();
     }
 
 }

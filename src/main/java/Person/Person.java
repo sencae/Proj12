@@ -62,25 +62,44 @@ public class Person {
      * @param f gender
      */
     public Person(Integer i, LocalDate a, String s, Character f) {
-        this.setId(i);
-        this.setGender(f);
-        this.setFullName(s);
-        this.setDateOfBirth(a);
+        if (i != null && a != null && !s.isEmpty() && f != null) {
+            this.setId(i);
+            this.setGender(f);
+            this.setFullName(s);
+            this.setDateOfBirth(a);
+        }
     }
 
-    public Person() {
-        this.id = 0;
-        this.gender = ' ';
-        this.dateOfBirth = LocalDate.parse("2000-12-12");
-        this.fullName = "";
-    }
 
     /**
      * @return person's age
      */
-    public Years findAge() {
-        return Years.yearsBetween(dateOfBirth, LocalDate.now());
+    public Integer findAge() {
+        return Years.yearsBetween(dateOfBirth, LocalDate.now()).getYears();
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (!id.equals(person.id)) return false;
+        if (!dateOfBirth.equals(person.dateOfBirth)) return false;
+        if (!fullName.equals(person.fullName)) return false;
+        if (!gender.equals(person.gender)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + dateOfBirth.hashCode();
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + gender.hashCode();
+        return result;
+    }
 }
