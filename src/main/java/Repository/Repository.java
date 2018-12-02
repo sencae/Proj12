@@ -5,10 +5,13 @@ import Comparators.*;
 import Person.Person;
 import RepositorySearcher.*;
 import RepositorySorters.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
 
 public class Repository {
+    private final static Logger logger = LogManager.getLogger(Repository.class);
     private isorter sorter;
     final private int DEFAULT_SIZE = 10;
     private int size;
@@ -25,28 +28,34 @@ public class Repository {
      * @param index index of person to remove
      */
     public void removePerson(int index) {
-        size--;
-        if (index == 0) {
-            Person[] newMasPersons = new Person[masPersons.length - 1];
-            System.arraycopy(masPersons, 1, newMasPersons, 0, newMasPersons.length);
-            masPersons = newMasPersons;
-        } else if (index == masPersons.length - 1) {
-            Person[] newMasPersons = new Person[masPersons.length - 1];
-            if (newMasPersons.length >= 0)
-                System.arraycopy(masPersons, 0, newMasPersons, 0, newMasPersons.length);
-            masPersons = newMasPersons;
-        } else {
-            Person[] newMasPersons = new Person[masPersons.length - 1];
-            for (int i = 0; i < masPersons.length; i++) {
-                if (i < index)
-                    newMasPersons[i] = masPersons[i];
-                else if (i == index) {
-                    continue;
-                } else
-                    newMasPersons[i - 1] = masPersons[i];
+        try {
+            size--;
+            if (index == 0) {
+                Person[] newMasPersons = new Person[masPersons.length - 1];
+                System.arraycopy(masPersons, 1, newMasPersons, 0, newMasPersons.length);
+                masPersons = newMasPersons;
+            } else if (index == masPersons.length - 1) {
+                Person[] newMasPersons = new Person[masPersons.length - 1];
+                if (newMasPersons.length >= 0)
+                    System.arraycopy(masPersons, 0, newMasPersons, 0, newMasPersons.length);
+                masPersons = newMasPersons;
+            } else {
+                Person[] newMasPersons = new Person[masPersons.length - 1];
+                for (int i = 0; i < masPersons.length; i++) {
+                    if (i < index)
+                        newMasPersons[i] = masPersons[i];
+                    else if (i == index) {
+                        continue;
+                    } else
+                        newMasPersons[i - 1] = masPersons[i];
 
+                }
+                masPersons = newMasPersons;
             }
-            masPersons = newMasPersons;
+        } catch (IndexOutOfBoundsException e) {
+            logger.error(e.toString());
+            for (StackTraceElement s : e.getStackTrace())
+                logger.error(s.toString());
         }
     }
 
@@ -58,11 +67,11 @@ public class Repository {
             masPersons = resize();
         }
         masPersons[size] = p;
+        logger.info("add new " + p.toString());
         this.size++;
     }
 
     /**
-     *
      * @return array of persons in repository
      */
     public Person[] getMasPersons() {
@@ -113,6 +122,11 @@ public class Repository {
         return search(new DateOfBirthChecker(), dateOfBirth);
     }
 
+    public static void main(String[] args) {
+        Repository r = new Repository();
+        r.add(new Person(2, new LocalDate(1991, 12, 12), "bbbbb lll", 'f'));
+        r.removePerson(10);
+    }
 }
 
 
