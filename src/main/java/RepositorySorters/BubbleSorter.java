@@ -4,7 +4,7 @@ import Comparators.iPersonComparator;
 import Person.Person;
 
 
-public class SorterByGender implements isorter {
+public class BubbleSorter implements isorter {
     @Override
     public void sort(Person[] p, iPersonComparator c) {
         Person buf;

@@ -4,7 +4,7 @@ import Comparators.iPersonComparator;
 import Person.Person;
 
 
-public class SorterByDoB implements isorter {
+public class SelectionSorter implements isorter {
 
     @Override
     public void sort(Person[] p, iPersonComparator c) {

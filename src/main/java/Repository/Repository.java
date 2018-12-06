@@ -12,7 +12,7 @@ import org.joda.time.LocalDate;
 
 public class Repository {
     private final static Logger logger = LogManager.getLogger(Repository.class);
-    private isorter sorter;
+    private isorter sorter = new BubbleSorter();
     final private int DEFAULT_SIZE = 10;
     private int size;
     private Person[] masPersons = new Person[DEFAULT_SIZE];
@@ -97,6 +97,9 @@ public class Repository {
         return masPersons[index].findAge();
     }
 
+    /**
+     * @param comparator comparator to sort
+     */
     public void sortBy(iPersonComparator comparator) {
         sorter.sort(masPersons, comparator);
     }
@@ -123,9 +126,7 @@ public class Repository {
     }
 
     public static void main(String[] args) {
-        Repository r = new Repository();
-        r.add(new Person(2, new LocalDate(1991, 12, 12), "bbbbb lll", 'f'));
-        r.removePerson(10);
+
     }
 }
 
