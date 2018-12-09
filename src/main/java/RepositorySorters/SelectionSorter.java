@@ -4,7 +4,7 @@ import Comparators.iPersonComparator;
 import Person.Person;
 
 
-public class SelectionSorter implements isorter {
+public class SelectionSorter implements Isorter {
 
     @Override
     public void sort(Person[] p, iPersonComparator c) {
@@ -13,7 +13,7 @@ public class SelectionSorter implements isorter {
         for (int i = 0; i < p.length - 1; i++) {
             minInd = i;
             for (int j = i + 1; j < p.length; j++) {
-                if (c.compare(p[minInd], p[j]) == 1) {
+                if (c.compare(p[minInd], p[j]) >= 1) {
                     minInd = j;
                 }
             }

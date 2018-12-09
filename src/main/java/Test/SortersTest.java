@@ -7,7 +7,7 @@ import Person.Person;
 import RepositorySorters.SelectionSorter;
 import RepositorySorters.InsertionSorter;
 import RepositorySorters.BubbleSorter;
-import RepositorySorters.isorter;
+import RepositorySorters.Isorter;
 import org.joda.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SortersTest {
-    Person[] person;
+    private Person[] person;
 
     @BeforeEach
     void before() {
@@ -29,7 +29,7 @@ class SortersTest {
 
     @Test
     void sortByFio() {
-        isorter sorter = new InsertionSorter();
+        Isorter sorter = new InsertionSorter();
         Person[] expected = new Person[]{new Person(1, LocalDate.now(), "aaaaaaa", 'm'),
                 new Person(5, new LocalDate(1991, 12, 12), "bbbbb jjj", 'f'),
                 new Person(2, new LocalDate(1991, 12, 12), "bbbbb lll", 'f'),
@@ -43,7 +43,7 @@ class SortersTest {
 
     @Test
     void sortByDoB() {
-        isorter sorter = new SelectionSorter();
+        Isorter sorter = new SelectionSorter();
         Person[] expected = new Person[]{
                 new Person(3, new LocalDate(1991, 11, 11), "bbfsabb lll", 'm'),
                 new Person(2, new LocalDate(1991, 12, 12), "bbbbb lll", 'f'),
@@ -58,7 +58,7 @@ class SortersTest {
 
     @Test
     void sortByGender() {
-        isorter sorter = new BubbleSorter();
+        Isorter sorter = new BubbleSorter();
         Person[] expected = new Person[]{
                 new Person(2, new LocalDate(1991, 12, 12), "bbbbb lll", 'f'),
                 new Person(4, new LocalDate(1993, 10, 4), "cccc aaa", 'f'),

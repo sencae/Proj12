@@ -1,7 +1,9 @@
 package Repository;
 
 
+import Annotations.SorterField;
 import Comparators.*;
+import Injector.Injector;
 import Person.Person;
 import RepositorySearcher.*;
 import RepositorySorters.*;
@@ -12,7 +14,9 @@ import org.joda.time.LocalDate;
 
 public class Repository {
     private final static Logger logger = LogManager.getLogger(Repository.class);
-    private isorter sorter = new BubbleSorter();
+    @SorterField
+    private Isorter sorter;
+
     final private int DEFAULT_SIZE = 10;
     private int size;
     private Person[] masPersons = new Person[DEFAULT_SIZE];
@@ -20,7 +24,7 @@ public class Repository {
     public Repository() {
     }
 
-    public Repository(isorter s) {
+    public Repository(Isorter s) {
         this.sorter = s;
     }
 
@@ -126,6 +130,8 @@ public class Repository {
     }
 
     public static void main(String[] args) {
+        Repository rep = Injector.inject(new Repository());
+        rep.getMasPersons();
 
     }
 }
