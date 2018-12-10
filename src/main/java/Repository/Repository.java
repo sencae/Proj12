@@ -131,8 +131,6 @@ public class Repository {
 
     public static void main(String[] args) {
         Repository rep = Injector.inject(new Repository());
-        rep.getMasPersons();
-
     }
 }
 

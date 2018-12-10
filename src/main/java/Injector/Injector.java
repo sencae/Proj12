@@ -1,9 +1,6 @@
 package Injector;
 
 import Annotations.SorterField;
-import RepositorySorters.BubbleSorter;
-import RepositorySorters.Isorter;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -26,7 +23,7 @@ public class Injector {
             if (f.isAnnotationPresent(SorterField.class)) {
                 f.setAccessible(true);
                 try {
-                    f.set(object, Class.forName(props.getProperty("RepositorySorters.Isorter")).getConstructor().newInstance());
+                    f.set(object, Class.forName(props.getProperty(f.getType().getName())).getConstructor().newInstance());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
