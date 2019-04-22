@@ -1,10 +1,14 @@
 package Person;
 
 
+import XML.LocalDateAdapter;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+@XmlRootElement(name = "person")
 public class Person {
 
 
@@ -12,7 +16,8 @@ public class Person {
         return dateOfBirth;
     }
 
-    private void setDateOfBirth(LocalDate dateOfBirth) {
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -20,29 +25,33 @@ public class Person {
         return fullName;
     }
 
-    private void setFullName(String fullName) {
+    @XmlElement
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public Character getGender() {
-        return gender;
+    public String getGender() {
+        return String.valueOf(gender);
     }
 
-    private void setGender(Character gender) {
-        this.gender = gender;
+    @XmlElement
+    public void setGender(String gender) {
+        this.gender = gender.charAt(0);
     }
 
     public Integer getId() {
         return id;
     }
 
-    private void setId(Integer id) {
+    @XmlAttribute
+    public void setId(Integer id) {
         this.id = id;
     }
 
     private Integer id;
     private LocalDate dateOfBirth;
     private String fullName;
+    @XmlTransient
     private Character gender;
 
     @Override
@@ -64,12 +73,14 @@ public class Person {
     public Person(Integer i, LocalDate a, String s, Character f) {
         if (i != null && a != null && !s.isEmpty() && f != null) {
             this.setId(i);
-            this.setGender(f);
+            this.setGender(f.toString());
             this.setFullName(s);
             this.setDateOfBirth(a);
         }
     }
 
+    public Person() {
+    }
 
     /**
      * @return person's age

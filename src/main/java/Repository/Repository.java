@@ -7,18 +7,35 @@ import Injector.Injector;
 import Person.Person;
 import RepositorySearcher.*;
 import RepositorySorters.*;
+import XML.Dom;
+import XML.SaxParserHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.parsers.*;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.IOException;
 
 
+@XmlRootElement(name = "repository")
 public class Repository {
     private final static Logger logger = LogManager.getLogger(Repository.class);
     @SorterField
     private Isorter sorter;
 
     final private int DEFAULT_SIZE = 10;
-    private int size;
+    public int size;
+    @XmlElement(name = "person")
     private Person[] masPersons = new Person[DEFAULT_SIZE];
 
     public Repository() {
@@ -131,7 +148,83 @@ public class Repository {
 
     public static void main(String[] args) {
         Repository rep = Injector.inject(new Repository());
+        //rep.add(new Person(0, new LocalDate(2000, 12, 12), "fullName", 'm'));
+        //rep.add(new Person(1, new LocalDate(2001, 12, 12), "fullName", 'f'));
+        /*JAXB*/
+//        try {
+//            File file = new File("file.xml");
+//            JAXBContext jaxbContext = JAXBContext.newInstance(Repository.class);
+//            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//
+//            // output pretty printed
+//            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//            jaxbMarshaller.marshal(rep, file);
+//            jaxbMarshaller.marshal(rep, System.out);
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//        }
+
+//        try {
+//
+//            File file = new File("file.xml");
+//            JAXBContext jaxbContext = JAXBContext.newInstance(Repository.class);
+//
+//            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//            Repository repository = (Repository) jaxbUnmarshaller.unmarshal(file);
+//
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//        }
+
+        /*SAX*/
+
+        //  rep =  SaxParserHandler.fromXML("file.xml");
+//        try {
+//            File file = new File("file.xml");
+//            TransformerFactory tf = TransformerFactory.newInstance();
+//            if (!tf.getFeature(SAXTransformerFactory.FEATURE)) {
+//                throw new RuntimeException(
+//                        "Did not find a SAX-compatible TransformerFactory.");
+//            }
+//            SAXTransformerFactory stf = (SAXTransformerFactory) tf;
+//            TransformerHandler th = stf.newTransformerHandler();
+//            th.setResult(new StreamResult(file));
+//
+//            th.startDocument();
+//            AttributesImpl fieldAttrs = new AttributesImpl();
+//
+//            th.startElement("", "", "repository", null);
+//            for(int i =0; i<rep.size;i++){
+//                fieldAttrs.addAttribute("", "", "id", "", rep.masPersons[i].getId().toString());
+//                th.startElement("", "", "person", fieldAttrs);
+//                th.startElement("","","dateOfBirth",null);
+//                th.characters(rep.masPersons[i].getDateOfBirth().toString().toCharArray(),
+//                        0,rep.masPersons[i].getDateOfBirth().toString().length());
+//                th.endElement("","","dateOfBirth");
+//                th.startElement("","","fullName",null);
+//                th.characters(rep.masPersons[i].getFullName().toCharArray(),
+//                        0,rep.masPersons[i].getFullName().length());
+//                th.endElement("","","fullName");
+//                th.startElement("","","gender",null);
+//                th.characters(rep.masPersons[i].getGender().toCharArray(),
+//                        0,rep.masPersons[i].getGender().length());
+//                th.endElement("","","gender");
+//                th.endElement("","","person");
+//            }
+//            th.endElement("", "", "repository");
+//            th.endDocument();
+//        }catch (Exception ex)
+//        {
+//            logger.error(ex.getMessage());
+//        }
+
+        /*DOM*/
+        //rep = Dom.fromXML("file.xml");
+        // Dom.toXML(rep);
+
     }
 }
+
 
 
